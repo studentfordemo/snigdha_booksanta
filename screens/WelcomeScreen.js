@@ -8,7 +8,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    ScrollView} from 'react-native';
+    ScrollView,
+  Image} from 'react-native';
 import db from '../config';
 import firebase from 'firebase';
 
@@ -31,7 +32,7 @@ export default class WelcomeScreen extends Component{
 
   userSignUp = (emailId, password,confirmPassword) =>{
    if(password !== confirmPassword){
-       return Alert.alert("password doesn't match\nCheck your password.")
+       return alert("password doesn't match\nCheck your password.")
    }else{
      firebase.auth().createUserWithEmailAndPassword(emailId, password)
      .then(()=>{
@@ -43,7 +44,7 @@ export default class WelcomeScreen extends Component{
          address:this.state.address,
          isBookRequestActive : false
        })
-       return  Alert.alert(
+       return  alert(
             'User Added Successfully',
             '',
             [
@@ -55,7 +56,7 @@ export default class WelcomeScreen extends Component{
        // Handle Errors here.
        var errorCode = error.code;
        var errorMessage = error.message;
-       return Alert.alert(errorMessage)
+       return alert(errorMessage)
      });
    }
  }
@@ -68,7 +69,7 @@ userLogin = (emailId, password)=>{
    .catch((error)=> {
      var errorCode = error.code;
      var errorMessage = error.message;
-     return Alert.alert(errorMessage)
+     return alert(errorMessage)
    })
  }
 
@@ -84,7 +85,9 @@ showModal = ()=>{
         <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
         <Text
           style={styles.modalTitle}
-          >Registration</Text>
+          >Registration</Text> 
+
+
         <TextInput
           style={styles.formTextInput}
           placeholder ={"First Name"}
@@ -183,14 +186,24 @@ showModal = ()=>{
       <View style={styles.container}>
         <View style={{justifyContent: 'center',alignItems: 'center'}}>
 
-        </View>
+        </View> 
+
           {
             this.showModal()
           }
         <View style={{justifyContent:'center', alignItems:'center'}}>
+        <Image
+   source = {
+    require("../assets/santa.jpg")
+   } 
+   style={{width:"50%",height:"100%"}}
+   resizeMode = {"stretch"}
+/>
           <Text style={styles.title}>Book Santa</Text>
         </View>
-        <View>
+        <View> 
+          
+
             <TextInput
             style={styles.loginBox}
             placeholder="abc@example.com"

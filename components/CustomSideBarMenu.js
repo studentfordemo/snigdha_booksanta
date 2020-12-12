@@ -2,20 +2,23 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'; 
 import {DrawerItems} from 'react-navigation-drawer'; 
 import firebase from 'firebase'; 
-import {Avatar, Icon} from 'react-native-elements';
+import {Avatar,Icon} from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import db from '../config';
+import {RFValue} from 'react-native-responsive-fontsize';
+
 
 export default class CustomSideBarMenu extends React.Component {
- 
-    state = {
+  constructor () {
+    super();
+    this.state = {
       userId : firebase.auth().currentUser.email,
       image : "#",
       name : "",
       docId : ""
     }
-
+  } 
   selectPicture = async () => {
     const {cancelled,uri} = await ImagePicker.launchImageLibraryAsync({
       mediaTypes : ImagePicker.MediaTypeOptions.All,
@@ -64,52 +67,57 @@ export default class CustomSideBarMenu extends React.Component {
     this.fetchImage(this.state.userId);
     this.getUserProfile();
   }
-  render (){
-    return ( 
-        <View style={{flex:1}}>
-        
-          <View style={{flex:0.5,alignItems:"center",backgroundColor:"orange"}}>
-             <Avatar
-                rounded 
-                source = {{uri:this.state.image}}
-                size = "medium"
-                onPress = {()=>{this.selectPicture()}}
-                containerStyle = {styles.imageContainer}
-                showEditButton 
+ render (){
+     return ( 
+         <View style={{flex:1}}>
+         <View style={{flex:0.5,alignItems:"center",backgroundColor:"orange"}}>
+              <Avatar
+                 rounded 
+                 source = {{uri:this.state.image}}
+                 size = "medium"
+                 onPress = {()=>{this.selectPicture()}}
+                 containerStyle = {styles.imageContainer}
+                 showEditButton 
+              />
+              <Text style={{fontWeight : "bold",fontSize:20,paddingTop : 10}}> {this.state.name} </Text>
+           </View>
+<View>
+
+           <DrawerItems
+                {
+                   ...this.props 
+               }
+           />
+         </View>
+         <View>
+           <TouchableOpacity  style={{flexDirection:"row",width:"100%",height:"100%"}}
+             onPress={()=>{
+                 this.props.navigation.navigate("WelcomeScreen")
+                 firebase.auth().signOut()
+             }
+            
+            }
+           >
+             <Icon
+             name="logout"
+             type = "antdesign"
+             size = {RFValue(20)}
+             iconStyle={{paddingLeft:RFValue(10)}}
              />
-             <Text style={{fontWeight : "100",fontSize:20,paddingTop : 10}}> {this.state.name} </Text>
-          </View>
-          <View style={styles.drawerItemsContainer}>
-          <DrawerItems
-               {
-                  ...this.props 
-              }
-          />
-          </View>
-        
-        <View> 
-          <TouchableOpacity 
-            onPress={()=>{
-                this.props.navigation.navigate("WelcomeScreen")
-                firebase.auth().signOut()
-            }}
-          >
-           <Text> Log Out </Text>
-          </TouchableOpacity>
-        
+            <Text style={{fontWeight:"bold",marginLeft:RFValue(30),fontSize:RFValue(10)}}> Log Out </Text>
+           </TouchableOpacity>
+         </View> 
 
-      </View>
-      </View>
-    )
-}
+       </View>
+     )
+ }
 
 }
-
 
 const styles=StyleSheet.create({
   imageContainer:{
       width:"40%",
-      height:"20%",
+      height:"40%",
       alignSelf:'center',
       borderColor:'#ffab91',
       borderRadius:40,

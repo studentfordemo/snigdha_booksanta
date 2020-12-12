@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image,FlatList,TouchableOpacity,Alert } from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
 import firebase from 'firebase';
@@ -38,10 +38,17 @@ componentDidMount (){
        title = {item.book_Name}
        subtitle = {item.reasonToRequest}
        titleStyle = {{color:"black",fontWeight:"bold"}}
+       leftElement = {
+        <Icon
+           name="book"
+           type = "font-awesome"
+        /> 
+       }
        rightElement = {
          <TouchableOpacity style={{width:100,height:50,alignItems:"center",alignSelf:"center",justifyContent:"center"}}
             onPress={()=>{this.props.navigation.navigate("ReceiverDetails",{"details":item})}}
          >
+
           <Text style={{color:"black"}}> 
             View
           </Text>

@@ -71,7 +71,7 @@ export default class BookRequestScreen extends React.Component {
       })
     } 
     getBookRequest = () => {
-      var bookRrequest = db.collection("requested_books")
+      var bookRequest = db.collection("requested_books")
       .where("user_id","==",this.state.userId)
       .get()
       .then((snapshot)=> {
@@ -99,7 +99,7 @@ export default class BookRequestScreen extends React.Component {
               var donorId = doc.data().donorId
               var bookName = doc.data().bookName
               db.collection("all_notifications").add({
-                "targeted_user_id" : donorId,
+                "targeted_user_Id" : donorId,
                 "message" : name + " " + last_name + "Received the book" + bookName,
                 "notification_status" : "unread",
                 "book_name" : bookName
